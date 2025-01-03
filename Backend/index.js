@@ -4,6 +4,9 @@ const mongoose = require("mongoose");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
+const userRoute = require("./Routes/user");
+const authRoute = require("./Routes/auth");
+const postRoute = require("./Routes/post");
 
 dotenv.config();
 
@@ -14,7 +17,12 @@ mongoose
 
 app.use(express.json());
 app.use(helmet());
-app.use(morgan("common"));  
+app.use(morgan("common"));
+
+
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/posts", postRoute);
 
 const PORT = process.env.PORT || 6000;
 app.listen(PORT, () => {

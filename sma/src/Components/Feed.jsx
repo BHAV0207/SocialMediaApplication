@@ -1,0 +1,14 @@
+import Post from "./Post";
+import Share from "./Share";
+import { Posts } from "../dummyData";
+
+export default function Feed() {
+  return (
+    <div className="flex-[5.5] p-5">
+      <Share />
+      {Posts.map((p) => (
+        <Post key={p.id} post={p} />
+      ))}
+    </div>
+  );
+}
