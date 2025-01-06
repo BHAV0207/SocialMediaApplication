@@ -18,7 +18,7 @@ router.put("/:id", async (req, res) => {
     try {
       const user = await User.findByIdAndUpdate(req.params.id, {
         $set: req.body,
-      });
+      }); 
 
       res.status(200).json("account has been updated");
     } catch (err) {
@@ -57,10 +57,10 @@ router.delete("/:id", async (req, res) => {
 // getting a user detail
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await User.findById(req.params.id);
     // learned a new thing that if we dont want the complete info of a user then we can use ._doc function
     const { password, updatedAt, ...other } = user._doc;
-    req.status(200).json(other);
+    res.status(200).json(other);
     // all the fields other than password and updatedAt will be visible
   } catch (err) {
     res.status(500).json(err);
