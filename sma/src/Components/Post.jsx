@@ -1,10 +1,21 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Users } from "../dummyData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Post({ post }) {
-  const [like, setLike] = useState(post.like);
+  const [like, setLike] = useState(post.like.length);
   const [isLiked, setIsLiked] = useState(false);
+  const [user, setUser] = useState({});
+  const Pf = import.meta.env.VITE_PUBLIC_FOLDER;
+
+  useEffect(() => {
+    const fetchingUser = async () => {
+      const res = await axios.get(`users/${post.userId}`);
+      setUser(res.data);
+    };
+
+    fetchingUser();
+  }, [post.userId]);
 
   const likeHandler = () => {
     setLike(isLiked ? like - 1 : like + 1);
@@ -16,12 +27,16 @@ export default function Post({ post }) {
       <div className="p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <img
-              className="w-10 h-10 rounded-full object-cover"
-              src={post.photo}
-              alt=""
-            />
-            <span className="font-semibold mx-3">{post.username}</span>
+            <Link to={`profile/${user.username}`}>
+              <img
+                className="w-10 h-10 rounded-full object-cover"
+                src={user.profilePicture}
+                alt=""
+              />
+            </Link>
+            <span className="font-semibold mx-3">
+              {user.username || Pf + "person/noAvatar.png"}
+            </span>
             <span className="text-xs text-gray-500">{post.date}</span>
           </div>
           <div className="cursor-pointer">
@@ -29,10 +44,10 @@ export default function Post({ post }) {
           </div>
         </div>
         <div className="my-5">
-          <span className="text-sm">{post.desc}</span>
+          <span className="text-sm">{post?.desc}</span>
           <img
             className="mt-5 w-full max-h-[500px] object-contain"
-            src={post.photo}
+            src={Pf + post.img}
             alt=""
           />
         </div>

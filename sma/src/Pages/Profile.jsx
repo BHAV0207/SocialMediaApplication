@@ -4,6 +4,8 @@ import Feed from "../Components/Feed";
 import Rightbar from "../Components/Rightbar";
 
 export default function Profile() {
+  const Pf = import.meta.env.VITE_PUBLIC_FOLDER;
+
   return (
     <>
       <Topbar />
@@ -14,12 +16,12 @@ export default function Profile() {
             <div className="h-[320px] relative">
               <img
                 className="w-full h-[250px] object-cover"
-                src="/assets/post/3.jpeg"
+                src={`${Pf}/post/3.jpeg`}
                 alt=""
               />
               <img
                 className="w-[150px] h-[150px] rounded-full object-cover absolute left-0 right-0 m-auto top-[150px] border-4 border-white"
-                src="/assets/person/7.jpeg"
+                src={`${Pf}/person/7.jpeg`}
                 alt=""
               />
             </div>

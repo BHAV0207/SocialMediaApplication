@@ -2,14 +2,17 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import ChatIcon from "@mui/icons-material/Chat";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { Link } from "react-router-dom";
 
 export default function Topbar() {
   return (
     <div className="h-14 w-full bg-blue-600 flex items-center fixed top-0 z-50">
       <div className="flex-[3] px-5">
-        <span className="text-2xl text-white font-bold cursor-pointer">
-          Lamasocial
-        </span>
+        <Link to={'/'}>
+          <span className="text-2xl text-white font-bold cursor-pointer">
+            Lamasocial
+          </span>
+        </Link>
       </div>
       <div className="flex-[5]">
         <div className="w-full h-8 bg-white rounded-full flex items-center">
