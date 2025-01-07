@@ -56,23 +56,23 @@ router.post("/login", async (req, res) => {
     return res.status(500).json({ message: "err" });
   }
 });
-
-const middleware = (req, res, next) => {
-  const token = req.header("Authorization")?.split(" ")[1];
-  if (!token)
-    return res.status(401).json({ message: "No token, authorization denied" });
-
+const auth = async (req, res, next) => {
   try {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    if (!token) {
+      return res.status(401).json({ message: "No auth token found" });
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(401).json({ message: "Invalid token" });
+    res.status(401).json({ message: "Authentication failed" });
   }
 };
 
 // Admin Route
-router.get("/admin", middleware, (req, res) => {
+router.get("/admin", auth, (req, res) => {
   if (!req.user.isAdmin)
     return res.status(403).json({ message: "Access denied" });
 
@@ -80,7 +80,7 @@ router.get("/admin", middleware, (req, res) => {
 });
 
 // User Route
-router.get("/user", middleware, (req, res) => {
+router.get("/user", auth, (req, res) => {
   if (req.user.isAdmin)
     return res.status(403).json({ message: "Access denied" });
 
